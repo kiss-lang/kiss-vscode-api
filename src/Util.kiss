@@ -377,3 +377,8 @@
 
 (function :Void printThroughInfoMessage []
     (set Prelude.printStr ->s (infoMessage s)))
+
+(function :Void awaitLetCatchThroughErrorMessage []
+    (set Prelude.makeAwaitLetDefaultCatch
+        ->binding
+            ->reason (errorMessage "awaitLet $binding failed: $reason")))
