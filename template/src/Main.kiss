@@ -4,6 +4,8 @@
 @(:expose "activate")
 (function activate [:ExtensionContext context]
     (printThroughInfoMessage)
+    (awaitLetCatchThroughErrorMessage)
+
     // Add your extension's commands here with (defCommand <...>):
     // (defCommand context exampleCommand "An example command for your extension" "C-; C-1" [] (doSomething))
     
