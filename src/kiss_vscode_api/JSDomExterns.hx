@@ -1,3 +1,5 @@
+package kiss_vscode_api;
+
 import js.html.Document;
 
 typedef JSDOMWindow = {
