@@ -8,7 +8,11 @@ import vscode.*;
 
 import kiss.Prelude;
 
+import kiss_vscode_api.QuickWebviewScript;
+
 typedef QuickWebviewSetup = (Document) -> Void;
+
+// (document, elapsed, close) -> Void
 typedef QuickWebviewUpdate = (Document, Float, Function) -> Void;
 
 @:build(kiss.Kiss.build())

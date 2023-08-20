@@ -1,0 +1,4 @@
+-lib kiss
+-cp src
+-main kiss_vscode_api.QuickWebviewScript
+-js src/kiss_vscode_api/QuickWebviewScript.js

@@ -1,16 +1,26 @@
-// TODO provide for passing messages between webview and VSCode API
-(function :WebviewPanel quickWebview [:String title :QuickWebviewSetup setup :QuickWebviewUpdate update &opt :ViewColumn column :Int fps]
+(defMacro quickWebviewScriptJs [&builder b]
+    (assertProcess "haxe" ["QuickWebviewScript.hxml"] null null (libPath "kiss-vscode-api"))
+    (b.str (File.getContent "$(libPath "kiss-vscode-api")/src/kiss_vscode_api/QuickWebviewScript.js")))
+
+(function :WebviewPanel quickWebview [:String title :QuickWebviewSetup setup &opt :String kissScript :QuickWebviewUpdate update :ViewColumn column :Int fps]
     (let [dom (new JSDOM "<!DOCTYPE html><html><head><title>${title}</title></head><body></body></html>")
-            document dom.window.document]
+            document dom.window.document
+            scriptElement (document.createElement "script")]
         (setup document)
-        (let [panel (Vscode.window.createWebviewPanel "kissVscodeQuickWebview" title (or column ViewColumn.Beside) (object))]
+        (set scriptElement.innerHTML (quickWebviewScriptJs))
+        (document.documentElement.appendChild scriptElement)
+        (let [panel (Vscode.window.createWebviewPanel "kissVscodeQuickWebview" title (or column ViewColumn.Beside) (object enableScripts ?kissScript))]
             (set panel.webview.html document.documentElement.innerHTML)
+
+            (when kissScript
+                (panel.webview.postMessage (RunScript (Prelude.convertToHScript kissScript))))
 
             // setInterval of the update function and allow for stopping it by disposing the panel or calling a close function passed to update
             (let [&mut :Function close null
                     deltaMilli (/ 1000.0 (or fps 30))
                     deltaSec (/ deltaMilli 1000)
-                    interval (Timers.setInterval ->{(update document deltaSec close) (set panel.webview.html document.documentElement.innerHTML)}deltaMilli)]
-                (panel.onDidDispose ->e (Timers.clearInterval interval))
+                    interval (when update (Timers.setInterval ->{(update document deltaSec close) (set panel.webview.html document.documentElement.innerHTML)} deltaMilli))]
+                // TODO update needs to add the script again, but that will run the script again?
+                (panel.onDidDispose ->e (when update (Timers.clearInterval interval)))
                 (set close ->(panel.dispose)))
             panel)))
