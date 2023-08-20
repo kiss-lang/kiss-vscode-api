@@ -28,7 +28,15 @@
             (let [&mut :Function close null
                     deltaMilli (/ 1000.0 (or fps 30))
                     deltaSec (/ deltaMilli 1000)
-                    interval (when update (Timers.setInterval ->{(update document deltaSec close) (set panel.webview.html document.documentElement.innerHTML)} deltaMilli))]
+                    interval (when update
+                                (Timers.setInterval 
+                                    ->{
+                                        (update document deltaSec close)
+                                        (unless (= document.documentElement.innerHTML panel.webview.html)
+                                            (set panel.webview.html document.documentElement.innerHTML)
+                                            (when kissScript
+                                                (panel.webview.postMessage (object type "runScript" data (Prelude.convertToHScript kissScript)))))
+                                    } deltaMilli))]
                 (panel.onDidDispose ->e (when update (Timers.clearInterval interval)))
                 (set close ->(panel.dispose)))
             panel)))
