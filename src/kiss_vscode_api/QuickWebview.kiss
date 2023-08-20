@@ -20,7 +20,6 @@
                     deltaMilli (/ 1000.0 (or fps 30))
                     deltaSec (/ deltaMilli 1000)
                     interval (when update (Timers.setInterval ->{(update document deltaSec close) (set panel.webview.html document.documentElement.innerHTML)} deltaMilli))]
-                // TODO update needs to add the script again, but that will run the script again?
                 (panel.onDidDispose ->e (when update (Timers.clearInterval interval)))
                 (set close ->(panel.dispose)))
             panel)))
