@@ -9,6 +9,7 @@ import vscode.*;
 import kiss.Prelude;
 
 import kiss_vscode_api.QuickWebviewScript;
+using StringTools;
 
 typedef QuickWebviewSetup = (Document) -> Void;
 

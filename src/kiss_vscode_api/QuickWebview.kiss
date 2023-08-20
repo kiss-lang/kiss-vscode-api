@@ -1,3 +1,5 @@
+(loadFrom "kiss-vscode-api" "src/Util.kiss")
+
 (defMacro quickWebviewScriptJs [&builder b]
     (assertProcess "haxe" ["QuickWebviewScript.hxml"] null null (libPath "kiss-vscode-api"))
     (b.str (File.getContent "$(libPath "kiss-vscode-api")/src/kiss_vscode_api/QuickWebviewScript.js")))
@@ -12,8 +14,15 @@
         (let [panel (Vscode.window.createWebviewPanel "kissVscodeQuickWebview" title (or column ViewColumn.Beside) (object enableScripts ?kissScript))]
             (set panel.webview.html document.documentElement.innerHTML)
 
+            (panel.webview.onDidReceiveMessage
+                ->:Void [:Dynamic m]
+                    (case m.type
+                        ("error" (errorMessage (Std.string m.data)))
+                        ("print" (print m.data))
+                        (otherwise)))
+
             (when kissScript
-                (panel.webview.postMessage (RunScript (Prelude.convertToHScript kissScript))))
+                (panel.webview.postMessage (object type "runScript" data (Prelude.convertToHScript kissScript))))
 
             // setInterval of the update function and allow for stopping it by disposing the panel or calling a close function passed to update
             (let [&mut :Function close null
