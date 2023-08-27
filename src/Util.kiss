@@ -382,3 +382,20 @@
     (set Prelude.makeAwaitLetDefaultCatch
         ->binding
             ->reason (errorMessage "awaitLet $binding failed: $reason")))
+
+(function :vscode.Position toPosition [:Int index]
+    (activeTextEditor.document.positionAt index))
+
+(function toIndex [:vscode.Position position]
+    (activeTextEditor.document.offsetAt position))
+
+(defAlias &call toOffset toIndex)
+
+(function toSelection [:Int anchorIdx :Int activeIdx]
+    (new vscode.Selection (toPosition anchorIdx) (toPosition activeIdx)))
+
+(function docIndexOf [:String what &opt :Int startingIndex]
+    (.indexOf (activeTextEditor.document.getText) what startingIndex))
+
+(function docLastIndexOf [:String what &opt :Int startingIndex]
+    (.lastIndexOf (activeTextEditor.document.getText) what startingIndex))
