@@ -7,4 +7,4 @@
 -D js-es=6
 -debug
 Main
--cmd npx vsce package
+-cmd npx @vscode/vsce package
