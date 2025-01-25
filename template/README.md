@@ -1,5 +1,5 @@
-# your-extension README
-An extension made with kiss: https://github.com/NQNStudios/kisslang
+# template
+{{description}}
 
 ## Features
 
