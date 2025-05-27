@@ -1,5 +1,5 @@
-// This has to be a macro so it can return from tryLoadConfig
-// TODO this macro should use gensym
+// This has to be a macro so it can return from calling contexts
+// TODO this macro should use (symbol)
 (defMacro trySpawnSync [command args options onError]
     `(let [command ,command
             args ,args
@@ -169,7 +169,7 @@
 
 // Example:
 /*
-    (defCommand customCommand "Custom command that does something" "C-; C-c" [<args...>] <body...>)
+    (defCommand context customCommand "Custom command that does something" "C-; C-c" [<args...>] <body...>)
 */
 (defMacro defCommand [context id description shortcut argList &body body]
     (let [functionName id
