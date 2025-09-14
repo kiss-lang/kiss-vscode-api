@@ -1,5 +1,5 @@
-# @install: lix --silent download "gh://github.com/kiss-lang/re-flex#bf1229b2aae4731b7f56504b023fc3cb849de3c7" into re-flex/0.0.0/github/bf1229b2aae4731b7f56504b023fc3cb849de3c7
-# @run: haxelib run-dir re-flex "${HAXE_LIBCACHE}/re-flex/0.0.0/github/bf1229b2aae4731b7f56504b023fc3cb849de3c7"
+# @install: lix --silent download "git:https://k7izh9.gitea.cloud/kiss-lang/re-flex#ac4ffbd4dfcd3ebdda03d920cdfcaf5ac0bd33e2" into re-flex/0.0.0/git/ac4ffbd4dfcd3ebdda03d920cdfcaf5ac0bd33e2
+# @run: haxelib run-dir re-flex "${HAXE_LIBCACHE}/re-flex/0.0.0/git/ac4ffbd4dfcd3ebdda03d920cdfcaf5ac0bd33e2"
 -lib kiss
--cp ${HAXE_LIBCACHE}/re-flex/0.0.0/github/bf1229b2aae4731b7f56504b023fc3cb849de3c7/src/
+-cp ${HAXE_LIBCACHE}/re-flex/0.0.0/git/ac4ffbd4dfcd3ebdda03d920cdfcaf5ac0bd33e2/src/
 -D re-flex=0.0.0
